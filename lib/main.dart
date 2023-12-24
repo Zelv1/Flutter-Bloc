@@ -57,6 +57,9 @@ class MyHomePage extends StatelessWidget {
               },
               icon: const Icon(Icons.person),
             ),
+            IconButton(onPressed: (){
+              userBloc.add(UserGetUsersJobEvent(counterBloc.state));
+            }, icon: const Icon(Icons.work))
           ],
         ),
         body: SafeArea(
@@ -70,12 +73,16 @@ class MyHomePage extends StatelessWidget {
                   }),
                   BlocBuilder<UserBloc, UserState>(
                       bloc: userBloc, builder: (context, state) {
+                        final users = state.users;
+                        final job = state.job;
                     return Column(
                       children: [
-                        if(state is UserLoadingState)
+                        if(state.isLoading)
                         const CircularProgressIndicator(),
-                        if(state is UserLoadedState)
-                          ...state.users.map((e) => Text(e.name)),
+                        if(users.isNotEmpty)
+                          ...users.map((e) => Text(e.name)),
+                        if(job.isNotEmpty)
+                          ...job.map((e) => Text(e.name)),
                       ],
                     );
                   }),

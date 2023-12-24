@@ -1,25 +1,33 @@
 part of 'user_bloc.dart';
 
-@immutable
-abstract class UserState {}
+ class UserState {
+   final List<User> users;
+   final List<Job> job;
+   final bool isLoading;
+  UserState({ this.users = const [],  this.job = const [],  this.isLoading = false});
 
-class UserInitial extends UserState {}
-class UserLoadedState extends UserState {
-  final List<User> users;
-
-  UserLoadedState(this.users);
-}
-
-class UserLoadingState extends UserState {
-
-
-
-}
+  UserState copyWith({List<User>? users,
+  List<Job>? job,
+  bool isLoading = false}){
+    return UserState(
+      users: users ?? this.users,
+      job: job ?? this.job,
+      isLoading: isLoading
+    );
+  }
+ }
 
 class User{
   final String name;
   final String id;
 
   User({required this.name, required this.id});
+
+}
+class Job{
+  final String name;
+  final String id;
+
+  Job({required this.name, required this.id});
 
 }
